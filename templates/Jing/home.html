@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ basic.title }}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'style.css'%}">
+  <link rel="icon" href="{% static 'favicon.ico' %}">
+</head>
+<body>
+  {% block nav %}
+  <nav class="container">
+    <ul>
+      <li><a href="{% url 'Jing:home' %}"><strong>主页</strong></a></li>
+    </ul>
+    <ul>
+      <li>
+        <a href="{% url 'Jing:types' %}" class="secondary">作品</a>
+      </li>
+    </ul>
+    <ul>
+      <li><a href="{% url 'Jing:me' %}" class="secondary">关于我</a></li>
+    </ul>
+  </nav>
+  {% endblock %}
+
+  {% block header %}
+  {% if artist and works %}
+  <header class="container" style = "text-align: center;">
+    <hgroup>
+      <img src="{{ artist.avatar.url }}" style="max-width: 200px;">
+      <h1>{{ artist.name }}</h1>
+      <p>{{ artist.label }}</p>
+      <p>{{ basic.showWorks }}</p>
+    </hgroup>
+  </header>
+  {% elif artist %}
+  <header class="container" style = "text-align: center;">  
+    <hgroup>
+      <img src="{{ artist.avatar.url }}" style="max-width: 200px;">
+      <h1>{{ artist.name }}</h1>
+      <p>{{ artist.label }}</p>
+      <p>{{ artist.intro|linebreaks }}</p>
+    </hgroup>
+  </header>    
+  {% elif workType %}
+  <header class="container" style = "text-align: center;">
+    <hgroup>
+      <img src="{{ wrokType.demo.url }}" style="max-width: 200px;">
+      <h1>{{ workType.name }}</h1>
+      <p>{{ basic.showTypes }}</p>
+      <p>{{ workType.intro|linebreaks }}</p>
+      <br>
+      <p><a href="{% url 'Jing:purchase' workType.slug %}" role="button">{{ basic.orderButton }}</a></p>
+    </hgroup>
+  </header>
+  {% endif %}
+  {% endblock %}
+
+
+  {% block content %}
+  {% if works %}
+  <main class="container">
+    <div class="grid">
+      <!-- style="grid-template-columns: 1fr 1fr;grid-gap: 2rem;" -->
+            <!-- 这里可以使用 css 截取一部分展示，然后在具体详情页面展示全部的， 另外就是两半的都是对应横线的，不想要对应的，更想要下拉瀑布式不对称的 -->
+      {% for work in works %}
+      <div class="item">
+        <img src="{{ work.file.url }}">
+        <a href="{{ work.get_absolute_url }}">{{ work.name }}</a>
+        {{ work.intro|linebreaks }}
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+  {% elif artwork %}
+  <article style="text-align: center;">
+    <img src="{{ artwork.file.url }}">
+    <h3>{{ artwork.name }}</h3>
+    <p>{{ artwork.intro|linebreaks }}</p>
+    <p>{{ artwork.date }} | <a href="{% url 'Jing:workType' artwork.types.slug %}">{{ artwork.types.name }}</a></p>
+  </article>
+  {% endif %}
+  {% endblock %}
+</body>
+</html>

@@ -1,0 +1,61 @@
+{% extends 'Jing/home.html' %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<main class="container">
+	<hgroup style = "text-align: center;">
+		<img src="{{ workType.demo.url }}" style="max-width: 300px">
+		<h1>{{ workType.name }}</h1>
+		<small>标有 * 的为必填项</small>
+	</hgroup>
+	<form action="{% url 'Jing:purchase' workType.slug %}" method="post" oninput="amount.value=parseInt(price.value)*parseInt(quantity.value)">
+		{% csrf_token %}
+		<fieldset>
+			<label for="request">
+				* 订制要求
+				<textarea name="request" id="request" placeholder="例如想要什么样的作品..." rows="7" required></textarea>
+			</label>
+
+			<label for="file">
+				参考文件(非必需)
+				<input type="file" name="file" id="file" accept=".png, .jpeg, .jpg, .doc, .docx, .pdf, .txt">
+				<small>仅接受图片，文档，文本和PDF格式</small>
+			</label>
+		</fieldset>
+		<fieldset>
+			<div class="grid">
+				<label for="name">
+					* 昵称
+					<input type="text" name="name" id="name" placeholder="老板留个名号吧" minlength="1" maxlength="20" required>
+				</label>
+
+				<label for="phone">
+					* 微信/QQ/手机
+					<input type="text" name="phone" id="phone" placeholder="用来即时联系" required>
+				</label>
+			</div>
+			<label for="email">电子邮箱</label>
+			<input type="email" name="email" id="email" placeholder="发送作品文件">
+			<small>以上至少留下一个联系方式吧，老板~</small>
+		</fieldset>
+		<fieldset>
+			<div class="grid">
+				<label for="price">
+					单价
+					<input type="number" name="price" id="price" value="{{ workType.price }}" placeholder="{{ workType.price }}" readonly>
+				</label>
+
+				<label for="quantity">
+					数量
+					<input type="number" name="quantity" id="quantity" min="1" max="100" value="1" placeholder="1" required>
+				</label>
+			</div>
+			<label for="amount">总价</label>
+			<input name="amount" id="amount" value="{{ workType.price }}" readonly required>
+		</fieldset>
+		<input type="submit" name="submit" value="提交订单">
+	</form>
+</main>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'Jing/home.html' %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<main class="container">
+	<article>
+		<header>
+			<hgroup style = "text-align: center;">
+				<h1>{{ order.client }}</h1>
+				<small>的订单信息</small>
+				<br><br>
+				<p>类别：<a href="{% url 'Jing:workType' order.types.slug %}">{{ order.types.name }}</a></p>
+				<p>日期：{{ order.date }}</p>
+				<p>订单号：{{ order.num }}</p>
+			</hgroup>
+		</header>
+		<p>定制要求：</p>
+		<textarea rows="7" readonly>{{ order.request }}</textarea>
+		<p>参考文件：</p>
+		<ul>
+			<li>{{ order.file.name|default:"无"}}</li>
+		</ul>
+		
+		<footer>
+			<details open>
+			  <summary role="button">客户信息</summary>
+			  <p>昵称：{{ order.client }}</p>
+			  <p>联系方式：{{ order.contact }}</p>
+			  <p>电子邮箱：{% if order.email %}{{ order.email }}{% else %}无{% endif %}</p>
+			</details>
+
+			<details open>
+			  <summary role="button" class="secondary">订单信息</summary>
+			  <p>类别：<a href="{% url 'Jing:workType' order.types.slug %}">{{ order.types.name }}</a></p>
+			  <p>单价：{{ order.types.price }}</p>
+			  <p>数量：{{ order.quantity }}</p>
+			  <p>总价：{{ order.amount }}</p>
+			</details>
+
+			<details open>
+			  <summary role="button" class="contrast">作品信息</summary>
+			  <p>状态：{{ order.get_state_display }}</p>
+			  {% if order.state == 'waiting' %}
+			  <progress value="10" max="100"></progress>
+			  {% elif order.state == 'processing' %}
+			  <progress value="50" max="100"></progress>
+			  {% else %}
+			  <progress value="100" max="100"></progress>
+			  {% endif %}
+			  {% if order.works %}
+			  <br><br>
+			  <p><img src="{{order.works.file.url}}"></p>
+			  {% endif %}
+			</details>
+		</footer>
+	</article>
+</main>
+{% endblock %}
