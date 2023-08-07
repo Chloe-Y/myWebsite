@@ -8,6 +8,7 @@
 	<hgroup style = "text-align: center;">
 		<img src="{{ workType.demo.url }}" style="max-width: 300px">
 		<h1>{{ workType.name }}</h1>
+		<p>{{ workType.orderIntro|linebreaks }}</p>
 		<small>标有 * 的为必填项</small>
 	</hgroup>
 	<form action="{% url 'Jing:purchase' workType.slug %}" method="post" oninput="amount.value=parseInt(price.value)*parseInt(quantity.value)">
@@ -20,8 +21,8 @@
 
 			<label for="file">
 				参考文件(非必需)
-				<input type="file" name="file" id="file" accept=".png, .jpeg, .jpg, .doc, .docx, .pdf, .txt">
-				<small>仅接受图片，文档，文本和PDF格式</small>
+				<input type="file" name="file" id="file" accept=".png, .jpeg, .jpg, .doc, .docx, .pdf, .txt, .rar, .zip, .7z">
+				<small>仅接受图片，文档，文本，PDF和压缩包格式</small>
 			</label>
 		</fieldset>
 		<fieldset>

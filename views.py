@@ -9,8 +9,6 @@ def home(request):
 	orderType = Type.objects.get(slug = 'order')
 	works = Artwork.objects.exclude(types = orderType) 
 	# exclude all order works
-
-	
 	return render(request, 'Jing/home.html', {'basic': basic, 'artist': artist, 'works': works})
 
 

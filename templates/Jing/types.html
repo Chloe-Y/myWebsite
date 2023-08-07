@@ -2,26 +2,24 @@
 
 {% block header %}
 <header class="container" style = "text-align: center;">
-	<hgroup>
-		<h3>所有作品类型如下：</h3>
-		<br>
-			{% for type in types %}
-			<p><a href="#{{ type.slug}}">{{ type.name }}</a></p>
-			{% endfor %}
-	</hgroup>
+	<h3>所有作品类型如下：</h3>
+		{% for type in types %}
+		<a href="#{{ type.slug}}">{{ type.name }}</a>
+		{% if not forloop.last %}
+		|
+		{% endif %}
+		{% endfor %}
 </header>
 {% endblock %}
 
 {% block content %}
-<main class="container" style="text-align: center;">
-	{% for type in types %}
-	<article id="{{ type.slug }}">
-		<header>
-			<img src="{{ type.demo.url }}" style="max-width: 400px">
-		</header>
-		<h3><a href="{% url 'Jing:workType' type.slug %}">{{ type.name }}</a></h3>
-		<p>{{ type.intro|linebreaks }}</p>
-	</article>
-	{% endfor %}
-</main>
+{% for type in types %}
+<article id="{{ type.slug }}" style="text-align: center;">
+	<header>
+		<img src="{{ type.demo.url }}" style="max-width: 400px">
+	</header>
+	<h3><a href="{% url 'Jing:workType' type.slug %}">{{ type.name }}</a></h3>
+	<p>{{ type.intro|linebreaks }}</p>
+</article>
+{% endfor %}
 {% endblock %}

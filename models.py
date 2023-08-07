@@ -28,7 +28,8 @@ class Type(models.Model):
 	slug = models.SlugField('the English name', max_length = 32)
 	intro = models.TextField(help_text = 'what type is it, describe it')
 	price = models.PositiveSmallIntegerField(default = 0, null = True, blank = True, help_text = 'single price for this type of work')
-	demo = models.FileField(upload_to = type_path, null = True, blank = True) 
+	demo = models.FileField(upload_to = type_path, null = True, blank = True)
+	orderIntro = models.TextField(help_text = 'the introduction for placing an order, e.g. what is included in this price',  null = True, blank = True)
 
 	def __str__(self):
 		return self.name
@@ -63,7 +64,7 @@ class Order(models.Model):
 	'''
 	order pruduct, slug url show every order, also works will belong here
 	'''
-	num = models.SlugField(max_length = 32)
+	num = models.SlugField(max_length = 32, null = True, blank = True)
 	types = models.ForeignKey(Type, models.SET_NULL, null = True, blank = True)
 	quantity = models.PositiveSmallIntegerField(default = 1, null = False, blank = False)
 	amount = models.PositiveIntegerField(null = False, blank = False, help_text = 'total amount of the order') 
