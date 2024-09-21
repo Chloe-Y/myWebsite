@@ -1,7 +1,7 @@
 
 基于家人给的灵感，制作的一个用于绘画，摄影类作品展示，约稿的页面
 
-演示: [yudu.life](http://yudu.life)
+演示: [Chloes.blog](https://chloes.blog/jing/)
 
 #### 功能：
 - [x] 作者信息页面
